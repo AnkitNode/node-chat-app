@@ -16,11 +16,17 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('User was disconnected');
   });
-  // socket.emit('newMessage',{
-  //   from:'ankit@gmail.com',
-  //   text:"What going on",
-  //   createdAt: 123
-  // });
+  socket.emit('newMessage',{
+    from:'Admin',
+    text:'Welcome to ChatRoom',
+    createdAt:new Date().getTime()
+  });
+  socket.broadcast.emit('newMessage',{
+    from:'Admin',
+    text:'Joined ChatRoom',
+    createdAt:new Date().getTime()
+  });
+
   socket.on('CreateMessage', (message) => {
     console.log('Createmessage',message);
     io.emit('newMessage',{
@@ -28,6 +34,11 @@ io.on('connection', (socket) => {
       text:message.text,
       createdAt:new Date().getTime()
     })
+    // socket.broadcast.emit('newMessage',{
+    //   from:message.from,
+    //   text:message.text,
+    //   createdAt:new Date().getTime()
+    // })
   });
 });
 
